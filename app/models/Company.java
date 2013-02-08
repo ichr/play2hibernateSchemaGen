@@ -19,7 +19,7 @@ public class Company extends BaseModel {
     public String name;
 
     public static Map<String,String> options() {
-        List<Company> companies = JPA.em().createQuery("from Company order by name").getResultList();
+        List<Company> companies = finder.find("from Company order by name").getResultList();
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         for(Company c: companies) {
             options.put(c.id.toString(), c.name);

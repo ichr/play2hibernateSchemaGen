@@ -5,6 +5,7 @@ import play.db.jpa.JPA;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Query;
 
 /**
  * @author Kristof Dombi <kd@nq.io>
@@ -35,6 +36,10 @@ public class BaseModel {
 
         public T findById(I id) {
             return JPA.em().find(type, id);
+        }
+
+        public Query find(String query) {
+            return JPA.em().createQuery(query);
         }
 
     }
