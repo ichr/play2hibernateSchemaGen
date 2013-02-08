@@ -13,11 +13,8 @@ import play.db.jpa.*;
  */
 @Entity 
 @SequenceGenerator(name = "computer_seq", sequenceName = "computer_seq")
-public class Computer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "computer_seq")
-    public Long id;
+public class Computer extends BaseModel {
+    public static BaseModel.Finder<Long,Computer> finder = new BaseModel.Finder(Long.class, Computer.class);
     
     @Constraints.Required
     public String name;
@@ -30,14 +27,7 @@ public class Computer {
     
     @ManyToOne(cascade = CascadeType.MERGE)
     public Company company;
-    
-    /**
-     * Find a company by id.
-     */
-    public static Computer findById(Long id) {
-        return JPA.em().find(Computer.class, id);
-    }
-    
+
     /**
      * Update this computer.
      */
@@ -45,7 +35,7 @@ public class Computer {
         if(this.company.id == null) {
             this.company = null;
         } else {
-            this.company = Company.findById(company.id);
+            this.company = Company.finder.findById(company.id);
         }
         this.id = id;
         JPA.em().merge(this);
@@ -58,7 +48,7 @@ public class Computer {
         if(this.company.id == null) {
             this.company = null;
         } else {
-            this.company = Company.findById(company.id);
+            this.company = Company.finder.findById(company.id);
         }
         this.id = id;
         JPA.em().persist(this);

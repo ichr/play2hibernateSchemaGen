@@ -12,17 +12,11 @@ import play.db.jpa.*;
  * Company entity managed by JPA
  */
 @Entity 
-public class Company {
+public class Company extends BaseModel {
+    public static BaseModel.Finder<Long,Company> finder = new BaseModel.Finder(Long.class, Company.class);
 
-    @Id
-    public Long id;
-    
     @Constraints.Required
     public String name;
-    
-    public static Company findById(Long id) {
-        return JPA.em().find(Company.class, id);
-    }
 
     public static Map<String,String> options() {
         List<Company> companies = JPA.em().createQuery("from Company order by name").getResultList();

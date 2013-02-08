@@ -57,7 +57,7 @@ public class Application extends Controller {
     @Transactional(readOnly=true)
     public static Result edit(Long id) {
         Form<Computer> computerForm = form(Computer.class).fill(
-            Computer.findById(id)
+            Computer.finder.findById(id)
         );
         return ok(
             editForm.render(id, computerForm)
@@ -110,7 +110,7 @@ public class Application extends Controller {
      */
     @Transactional
     public static Result delete(Long id) {
-        Computer.findById(id).delete();
+        Computer.finder.findById(id).delete();
         flash("success", "Computer has been deleted");
         return GO_HOME;
     }
